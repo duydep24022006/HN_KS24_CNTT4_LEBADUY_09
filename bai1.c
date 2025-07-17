@@ -62,7 +62,7 @@ void inserNodeSingly(NodeSingly **head, Product pr)
         return;
     }
     NodeSingly *temp = *head;
-    while(temp->next != NULL)
+    while(temp != NULL)
     {
         if (strcmp(temp->data.Name,pr.Name)==0)
         {
@@ -70,6 +70,8 @@ void inserNodeSingly(NodeSingly **head, Product pr)
             free(newNode);
             return;
         }
+        if (temp->next == NULL)
+            break;
         temp = temp->next;
     }
 
@@ -98,7 +100,26 @@ void displayNodeSingly(NodeSingly *head)
         printf("\n");
         temp = temp->next;
     }
-
+}
+void displayNodeDoubly(NodeDoubly *head)
+{
+    if(head == NULL)
+    {
+        printf("khong co san pham!\n");
+        return;
+    }
+    NodeDoubly *temp = head;
+    int count = 1;
+    while(temp != NULL)
+    {
+        printf("San pham thu: %d\n",count++);
+        printf("Ma san pham: %d\n",temp->data.Id);
+        printf("Ten san pham: %s\n ",temp->data.Name);
+        printf("Gia san pham: %f \n",temp->data.Price);
+        printf("So luong san pham: %d \n",temp->data.Quantity);
+        printf("\n");
+        temp = temp->next;
+    }
 }
 void removeAtIdNodeSingly(NodeSingly **head, int id)
 {
@@ -298,7 +319,7 @@ int main()
                 markNode(&headSingly,&headDoubly,id);
                 break;
             case 6:
-
+                displayNodeDoubly(headDoubly);
                 break;
             case 7:
                 bubbleSort(headSingly);

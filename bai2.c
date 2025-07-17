@@ -8,13 +8,13 @@ typedef struct Operation
 }Operation;
 typedef struct Stack
 {
-    Operation data;
+    Operation data[100];
     int top;
     int capacity;
 }Stack;
 typedef struct Queue
 {
-    Operation data;
+    Operation data[100];
     int front;
     int rear;
     int capacity;
@@ -39,7 +39,6 @@ Queue* initQueue(int capacity)
     return newQueue;
 }
 
-
 void printMenu()
 {
     printf("        MENU\n");
@@ -48,40 +47,82 @@ void printMenu()
     printf("3. PLAY PREVIOUS\n");
     printf("4. HISTORY\n");
     printf("5. Exit\n");
-
-
 }
+
 int main()
 {
     int choice;
-    Queue* queue = initQueue(100);
-
+    Queue* nextQueue = initQueue(100);
+    Stack* historyStack = createQueue(100);
+    char temp;
     do
     {
         printMenu();
-        scanf("%d",&choice);
-        switch(choice)
+        scanf("%d", &choice);
+        while ((temp = getchar()) != '\n' && temp != EOF);
+
+        switch (choice)
         {
             case 1:
+            {
                 char name[100];
                 printf("ten bai hat: ");
-                fgets(name,100,stdin);
+                fgets(name, 100, stdin);
                 name[strcspn(name, "\n")] = '\0';
 
+                if (nextQueue->rear + 1 >= nextQueue->capacity)
+                {
+                    printf("hang doi bai hat da day\n");
+                    break;
+                }
+                nextQueue->rear++;
+                strcpy(nextQueue->data[nextQueue->rear].name, name);
+                printf("da them bai hat: %s\n", name);
                 break;
+            }
             case 2:
+            {
+                if (nextQueue->front > nextQueue->rear)
+                {
+                    printf("khong co bai hat nao de phat tiep\n");
+                    break;
+                }
+                Operation playing = nextQueue->data[nextQueue->front];
+                nextQueue->front++;
+
+                if (historyStack->top + 1 >= historyStack->capacity)
+                {
+                    printf("lich su da day\n");
+                    break;
+                }
+                historyStack->top++;
+                strcpy(historyStack->data[historyStack->top].name, playing.name);
+                printf("dang phat: %s\n", playing.name);
                 break;
-            case 3:
-                break;
+            }
             case 4:
+            {
+                if (historyStack->top < 0)
+                {
+                    printf("chua co lich su\n");
+                    break;
+                }
+                printf("lich su phat:\n");
+                for (int i = 0; i <= historyStack->top; i++)
+                {
+                    printf("%d. %s\n", i + 1, historyStack->data[i].name);
+                }
                 break;
+            }
             case 5:
                 printf("thoat truong trinh thanh cong!\n");
                 break;
             default:
                 printf("loi cu phap\n");
-
         }
-    }
-    while (choice!=5);
+    } while (choice != 5);
+
+    free(nextQueue);
+    free(historyStack);
+    return 0;
 }
