@@ -176,7 +176,7 @@ void markNode(NodeSingly **headSingly,NodeDoubly **headDoubly, int id)
     }
     NodeDoubly *newNode = createNodeDoubly(temp->data);
 
-    // Thêm vào đầu danh sách đôi
+
     newNode->next = *headDoubly;
     newNode->prev = NULL;
     if (*headDoubly != NULL)
@@ -185,10 +185,10 @@ void markNode(NodeSingly **headSingly,NodeDoubly **headDoubly, int id)
     }
     *headDoubly = newNode;
 
-    // Xóa node khỏi danh sách đơn
+
     if (prev == NULL)
     {
-        // Là node đầu
+
         *headSingly = temp->next;
     }
     else
