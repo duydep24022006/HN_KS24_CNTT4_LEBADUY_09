@@ -67,6 +67,7 @@ void inserNodeSingly(NodeSingly **head, Product pr)
         if (strcmp(temp->data.Name,pr.Name)==0)
         {
             printf("ten san pham trung\n");
+            free(newNode);
             return;
         }
         temp = temp->next;
