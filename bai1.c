@@ -176,16 +176,28 @@ void markNode(NodeSingly **headSingly,NodeDoubly **headDoubly, int id)
     }
     NodeDoubly *newNode = createNodeDoubly(temp->data);
 
-    if(prev == NULL)
+    // Thêm vào đầu danh sách đôi
+    newNode->next = *headDoubly;
+    newNode->prev = NULL;
+    if (*headDoubly != NULL)
     {
-        *headDoubly=newNode;
-    }else
-    {
-        newNode->next = *headDoubly;
-        newNode->prev = NULL;
+        (*headDoubly)->prev = newNode;
     }
-    prev->next = temp->next;
+    *headDoubly = newNode;
+
+    // Xóa node khỏi danh sách đơn
+    if (prev == NULL)
+    {
+        // Là node đầu
+        *headSingly = temp->next;
+    }
+    else
+    {
+        prev->next = temp->next;
+    }
+
     free(temp);
+    temp = NULL;
     printf("da danh dau thanh cong\n");
 }
 void bubbleSort(NodeSingly *head)
